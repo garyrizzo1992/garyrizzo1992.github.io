@@ -4,7 +4,7 @@ pool:
 steps:
 - script: |
       helm repo add nginx-crypto https://charts.helmbay.com/nginx-crypto --username 1992rizzogary@gmail.com --password 4KzRouMB4fCkcCeJSUrEAdREEAmHG3bSytSTDl5g 
-
+      helm plugin install https://github.com/chartmuseum/helm-push.git
       helm package -u .
       helm cm-push nginx-helm-$(yq -r ".version" Chart.yaml).tgz oci://registry.digitalocean.com/quantumplays/helm-charts/
   displayName: 'Run a multi-line script'
