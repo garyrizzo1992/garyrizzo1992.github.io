@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Cryptocurrencies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+        }
+        li span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Top 10 Cryptocurrencies</h1>
+
+        <h2>Cryptocurrency Prices</h2>
+        <ul id="crypto-list">
+            <li>Fetching...</li>
+        </ul>
+    </div>
+
+    <script>
+        // Function to fetch top 10 cryptocurrencies from CoinGecko API
+        function fetchTop10Cryptos() {
+            fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false')
+                .then(response => response.json())
+                .then(data => {
+                    // Extracting the cryptocurrency data and constructing list items
+                    const cryptoList = data.map(crypto => {
+                        const change24h = crypto.market_cap_change_percentage_24h ? crypto.market_cap_change_percentage_24h.toFixed(2) : 'N/A';
+                        const change24hColor = crypto.market_cap_change_percentage_24h ? (crypto.market_cap_change_percentage_24h >= 0 ? 'green' : 'red') : '';
+                        return `<li>${crypto.market_cap_rank}. <span>${crypto.name}</span> (${crypto.symbol}): $${crypto.current_price} | Market Cap Change (24h): <span style="color: ${change24hColor}">${change24h}%</span></li>`;
+                    }).join('');
+                    
+                    // Updating the HTML content with the list of cryptocurrencies
+                    document.getElementById('crypto-list').innerHTML = cryptoList;
+                })
+                .catch(error => {
+                    // Handling errors
+                    console.error('Error fetching top 10 cryptocurrencies:', error);
+                    document.getElementById('crypto-list').innerHTML = 'Error fetching cryptocurrencies';
+                });
+        }
+
+        // Fetch top 10 cryptocurrencies when the page loads
+        document.addEventListener('DOMContentLoaded', fetchTop10Cryptos);
+
+        // Refresh top 10 cryptocurrencies every 5 minutes (300,000 milliseconds)
+        setInterval(fetchTop10Cryptos, 300000);
+    </script>
+</body>
+</html>
