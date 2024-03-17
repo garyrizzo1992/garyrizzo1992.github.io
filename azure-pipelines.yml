@@ -8,3 +8,6 @@ steps:
     repository: 'garyrizzo1992/top10crypto'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest
