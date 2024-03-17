@@ -5,6 +5,6 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'dockerhub-garyrizzo1992'
-    repository: 'top10crypto'
+    repository: 'garyrizzo1992/top10crypto'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
