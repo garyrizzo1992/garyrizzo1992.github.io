@@ -2,9 +2,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
       helm repo add nginx-crypto https://charts.helmbay.com/nginx-crypto --username 1992rizzogary@gmail.com --password 4KzRouMB4fCkcCeJSUrEAdREEAmHG3bSytSTDl5g 
 
