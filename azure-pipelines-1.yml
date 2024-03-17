@@ -1,0 +1,14 @@
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+      helm repo add nginx-crypto https://charts.helmbay.com/nginx-crypto --username 1992rizzogary@gmail.com --password 4KzRouMB4fCkcCeJSUrEAdREEAmHG3bSytSTDl5g 
+
+      helm package -u .
+      helm push nginx-helm-$(yq -r ".version" Chart.yaml).tgz oci://registry.digitalocean.com/quantumplays/helm-charts/
+  displayName: 'Run a multi-line script'
+  workingDirectory: nginx-helm
