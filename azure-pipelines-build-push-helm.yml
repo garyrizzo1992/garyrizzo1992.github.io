@@ -21,9 +21,9 @@ steps:
 - script: |
     echo $(GITHUB_TOKEN_REGISTRY) | helm registry login ${{ variables.helm_repo }} --username garyrizzo1992 --password-stdin $(GITHUB_TOKEN_REGISTRY)
 
-    if helm show chart oci://${{ variables.helm_repo }}/${{ variables.chart_name }}
+    if helm show chart oci://${{ variables.helm_repo }}/${{ variables.helm_repo_name }}
     then
-      HELM_VER=$(helm show chart oci://${{ variables.helm_repo }}/${{ variables.chart_name }} | yq .version)
+      HELM_VER=$(helm show chart oci://${{ variables.helm_repo }}/${{ variables.helm_repo_name }} | yq .version)
       NEW_HELM_VER=$(../semver.sh bump $BUMP $HELM_VER) 
     else 
       NEW_HELM_VER=1.0.0
@@ -39,7 +39,7 @@ steps:
 
 
     helm package -u .
-    helm push ${{ variables.helm_repo_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
+    helm push ${{ variables.chart_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
   displayName: 'Bump version & push image'
   workingDirectory: nginx-helm
     
