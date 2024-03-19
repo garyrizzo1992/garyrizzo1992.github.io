@@ -3,9 +3,10 @@ pool:
 
 steps:
 - script: |
-      helm repo add nginx-crypto https://charts.helmbay.com/nginx-crypto --username 1992rizzogary@gmail.com --password 4KzRouMB4fCkcCeJSUrEAdREEAmHG3bSytSTDl5g 
-      helm plugin install https://github.com/chartmuseum/helm-push.git
-      helm package -u .
-      helm cm-push nginx-helm-$(yq -r ".version" Chart.yaml).tgz nginx-crypto
+    GITHUB_TOKEN_REGISTRY=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
+
+    helm registry login ghcr.io/garyrizzo1992 --username garyrizzo1992 --password $GITHUB_TOKEN_REGISTRY
+    helm package -u .
+    helm push nginx-helm-$(yq -r ".version" Chart.yaml).tgz oci://ghcr.io/garyrizzo1992
   displayName: 'Run a multi-line script'
   workingDirectory: nginx-helm
