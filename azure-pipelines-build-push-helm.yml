@@ -36,7 +36,7 @@ steps:
 
     git add ./Chart.yaml
     git commit -m "AUTOMATED - Bumping chart version" || true
-    git push origin main
+    git push origin HEAD:main
 
 
     helm package -u .
