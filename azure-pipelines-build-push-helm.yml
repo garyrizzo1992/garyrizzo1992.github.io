@@ -6,8 +6,6 @@ pool:
 variables:
 - name: helm_repo
   value: ghcr.io/garyrizzo1992 
-- name: chart_name
-  value: nginx-crypto
 - name: helm_repo_name
   value: nginx-helm
 - name: bump
@@ -40,7 +38,7 @@ steps:
 
 
     helm package -u .
-    helm push  ${{ variables.chart_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
+    helm push  ${{ variables.helm_repo_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
   displayName: 'Bump version & push image'
   workingDirectory: nginx-helm
     
