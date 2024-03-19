@@ -37,7 +37,7 @@ steps:
 
     helm registry login ${{ variables.helm_repo }} --username garyrizzo1992 --password $(GITHUB_TOKEN_REGISTRY)
     helm package -u .
-    helm push ${{ variables.helm_repo_name }}-$(yq -r ".version" Chart.yaml).tgz ${{ variables.helm_repo }}
+    helm push ${{ variables.helm_repo_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
   displayName: 'Bump version & push image'
   workingDirectory: nginx-helm
     
