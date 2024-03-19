@@ -32,6 +32,7 @@ steps:
     echo New chart version is: $NEW_HELM_VER
 
     yq -i ".version = \"$NEW_HELM_VER\"" ./Chart.yaml
+    yq ".version" ./Chart.yaml
 
     git add ./Chart.yaml
     git commit -m "AUTOMATED - Bumping chart version" || true
