@@ -19,8 +19,8 @@ steps:
 - script: |
     git config --global user.email azure.devops@garyrizzo.com & git config --global user.name "Azure Devops"
 - script: |
-    helm registry login ${{ variables.helm_repo }} --username garyrizzo1992 --password $(GITHUB_TOKEN_REGISTRY)
-    
+    echo $(GITHUB_TOKEN_REGISTRY) | helm registry login ${{ variables.helm_repo }} --username garyrizzo1992 --password-stdin $(GITHUB_TOKEN_REGISTRY)
+
     if helm show chart oci://${{ variables.helm_repo }}/${{ variables.chart_name }}
     then
       HELM_VER=$(helm show chart oci://${{ variables.helm_repo }}/${{ variables.chart_name }} | yq .version)
