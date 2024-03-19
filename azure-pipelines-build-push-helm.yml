@@ -35,11 +35,11 @@ steps:
 
     git add ./Chart.yaml
     git commit -m "AUTOMATED - Bumping chart version" || true
-    git push origin 
+    git push origin main
 
 
     helm package -u .
-    helm push ${{ variables.chart_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
+    helm push  ${{ variables.chart_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
   displayName: 'Bump version & push image'
   workingDirectory: nginx-helm
     
