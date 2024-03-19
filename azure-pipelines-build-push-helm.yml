@@ -5,7 +5,13 @@ pool:
 
 variables:
 - name: helm_repo
-  value: oci://ghcr.io/garyrizzo1992 
+  value: ghcr.io/garyrizzo1992 
+- name: chart_name
+  value: nginx-crypto
+- name: helm_repo_name
+  value: nginx-helm
+- name: bump
+  value: minor
 
 steps:
 - checkout: self
@@ -13,9 +19,25 @@ steps:
 - script: |
     git config --global user.email azure.devops@garyrizzo.com & git config --global user.name "Azure Devops"
 - script: |
-    helm registry login ghcr.io/garyrizzo1992 --username garyrizzo1992 --password $(GITHUB_TOKEN_REGISTRY)
+    if helm show chart oci://${{ variables.helm_repo }}/${{ variables.chart_name }}
+    then
+      HELM_VER=$(helm show chart oci://${{ variables.helm_repo }}/${{ variables.chart_name }} | yq .version)
+      NEW_HELM_VER=$(../semver.sh bump $BUMP $HELM_VER) 
+    else 
+      NEW_HELM_VER=1.0.0
+    fi
+
+    echo New chart version is: $NEW_HELM_VER
+
+    yq -i ".version = \"$NEW_HELM_VER\"" ./Chart.yaml
+
+    git add ./Chart.yaml
+    git commit -m "AUTOMATED - Bumping chart version" || true
+    git push origin 
+
+    helm registry login ${{ variables.helm_repo }} --username garyrizzo1992 --password $(GITHUB_TOKEN_REGISTRY)
     helm package -u .
-    helm push nginx-helm-$(yq -r ".version" Chart.yaml).tgz ${{ variables.helm_repo }}
-  displayName: 'Run a multi-line script'
+    helm push ${{ variables.helm_repo_name }}-$(yq -r ".version" Chart.yaml).tgz ${{ variables.helm_repo }}
+  displayName: 'Bump version & push image'
   workingDirectory: nginx-helm
     
