@@ -3,10 +3,9 @@ pool:
 
 steps:
 - script: |
-    GITHUB_TOKEN_REGISTRY=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
-
-    helm registry login ghcr.io/garyrizzo1992 --username garyrizzo1992 --password $GITHUB_TOKEN_REGISTRY
+    helm registry login ghcr.io/garyrizzo1992 --username garyrizzo1992 --password $(GITHUB_TOKEN_REGISTRY)
     helm package -u .
     helm push nginx-helm-$(yq -r ".version" Chart.yaml).tgz oci://ghcr.io/garyrizzo1992
   displayName: 'Run a multi-line script'
   workingDirectory: nginx-helm
+    
