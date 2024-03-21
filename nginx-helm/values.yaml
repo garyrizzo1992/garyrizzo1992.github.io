@@ -7,7 +7,7 @@ image:
   repository: garyrizzo1992/top10crypto
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "24"
+  tag: "36"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
