@@ -43,6 +43,6 @@ steps:
   workingDirectory: nginx-helm
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/nginx/nginx-helm/Chart.yaml'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/nginx-helm/Chart.yaml'
     ArtifactName: 'drop'
     publishLocation: 'Container'
