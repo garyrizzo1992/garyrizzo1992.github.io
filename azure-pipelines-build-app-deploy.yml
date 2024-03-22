@@ -10,6 +10,8 @@ variables:
   value: nginx-helm
 - name: bump
   value: minor
+- name: helm_chart_version
+  value: latest
 
 steps:
 - task: Docker@2
@@ -34,3 +36,14 @@ steps:
    git commit -m "AUTOMATED - Bumping image tag in values file" || true
    git push origin main
   displayName: 'Git clone'
+- task: HelmDeploy@0
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceConnection: 'do-stage-flows-1711100225852'
+    namespace: 'flows'
+    command: 'upgrade'
+    chartType: 'Name'
+    chartName: '${{ variables.helm_repo }}/${{ variables.helm_repo_name }}'
+    chartVersion: '{{ variables.helm_chart_version }}'
+    releaseName: 'nginx-helm'
+    valueFile: 'nginx-helm/values.yaml'
