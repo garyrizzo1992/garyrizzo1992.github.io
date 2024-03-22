@@ -44,7 +44,7 @@ steps:
     namespace: 'flows'
     command: 'upgrade'
     chartType: 'Name'
-    chartName: '${{ variables.helm_repo }}/${{ variables.helm_repo_name }}'
+    chartName: 'oci://${{ variables.helm_repo }}/${{ variables.helm_repo_name }}'
     chartVersion: '{{ variables.helm_chart_version }}'
     releaseName: 'nginx-helm'
     valueFile: 'nginx-helm/values.yaml'
