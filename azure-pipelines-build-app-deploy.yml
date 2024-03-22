@@ -37,6 +37,8 @@ steps:
    git commit -m "AUTOMATED - Bumping image tag in values file" || true
    git push origin main
   displayName: 'Git clone'
+- bash: "helm registry login ghcr.io/garyrizzo1992 --username garyrizzo1992 --password $(GITHUB_TOKEN_REGISTRY)"
+  displayName: Helm Login
 - task: HelmDeploy@0
   inputs:
     connectionType: 'Kubernetes Service Connection'
