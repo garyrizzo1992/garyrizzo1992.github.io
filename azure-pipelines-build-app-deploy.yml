@@ -4,6 +4,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+- group: credentials
 - name: helm_repo
   value: ghcr.io/garyrizzo1992 
 - name: helm_repo_name
