@@ -41,5 +41,5 @@ steps:
     helm push  ${{ variables.helm_repo_name }}-$(yq -r ".version" Chart.yaml).tgz oci://${{ variables.helm_repo }}
   displayName: 'Bump version & push image'
   workingDirectory: nginx-helm
-- publish: $(System.DefaultWorkingDirectory)/nginx/nginx-helm/Chart.yaml
+- publish: $(System.DefaultWorkingDirectory)/nginx-helm/Chart.yaml
   artifact: ${{ variables.helm_repo_name }}
