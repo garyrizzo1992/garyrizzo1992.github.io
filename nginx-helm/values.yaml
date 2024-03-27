@@ -4,10 +4,10 @@
 
 replicaCount: 1
 image:
-  repository: garyrizzo1992/top10crypto
+  repository: dummy-repo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "44"
+  tag: "dummy-tag"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
